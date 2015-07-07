@@ -78,4 +78,12 @@ public class TiemposDAO {
         conexion.close();
         return true;
     }
+    
+     public boolean EliminarTiempos(TiemposRecord tiempo) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
+        ConectarBD con = new ConectarBD();
+        Connection conexion = con.realiza_conexion();
+	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
+        create.delete(TIEMPOS).where(TIEMPOS.TIEMPOSID.equal(tiempo.getTiemposid()));
+        return true;
+    }
 }

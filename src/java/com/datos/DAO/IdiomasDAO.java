@@ -74,4 +74,12 @@ public class IdiomasDAO {
         conexion.close();
         return true;
     }
+    
+    public boolean EliminarIdioma(IdiomasRecord idioma) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
+        ConectarBD con = new ConectarBD();
+        Connection conexion = con.realiza_conexion();
+	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
+        create.delete(IDIOMAS).where(IDIOMAS.IDIOMAID.equal(idioma.getIdiomaid()));
+        return true;
+    }
 }

@@ -97,5 +97,13 @@ public class PalabrasDAO {
         conexion.close();
         return true;
     }
+    
+    public boolean EliminarPalabras(PalabrasRecord palabras) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
+        ConectarBD con = new ConectarBD();
+        Connection conexion = con.realiza_conexion();
+	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
+        create.delete(PALABRAS).where(PALABRAS.PALABRAID.equal(palabras.getPalabraid()));
+        return true;
+    }
    
 }

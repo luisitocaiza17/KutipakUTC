@@ -85,7 +85,7 @@ public class PersonasDAO {
         return true;
     }
     
-     public boolean ActualizarTiempo(PersonasRecord mispersonas) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
+     public boolean ActualizarPersonas(PersonasRecord mispersonas) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
         ConectarBD con = new ConectarBD();
         Connection conexion = con.realiza_conexion();
 	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
@@ -96,6 +96,14 @@ public class PersonasDAO {
                 .set(PERSONAS.TELEFONO,mispersonas.getTelefono())
                 .where(PERSONAS.PERSONAID.equal(mispersonas.getPersonaid())).execute();
         conexion.close();
+        return true;
+    }
+     
+      public boolean EliminarPersonas(PersonasRecord personas) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
+        ConectarBD con = new ConectarBD();
+        Connection conexion = con.realiza_conexion();
+	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
+        create.delete(PERSONAS).where(PERSONAS.PERSONAID.equal(personas.getPersonaid()));
         return true;
     }
     

@@ -18,6 +18,7 @@ import org.jooq.impl.DSL;
 import persistencia.tables.Estructurapalabras;
 import static persistencia.tables.Estructurapalabras.ESTRUCTURAPALABRAS;
 import persistencia.tables.records.EstructurapalabrasRecord;
+import persistencia.tables.records.TipospalabrasRecord;
 
 /**
  *
@@ -80,4 +81,11 @@ public class EstructuraPalabrasDAO {
         return true;
     }
     
+     public boolean EliminarEstructura(EstructurapalabrasRecord estructuraPalabra,TipospalabrasRecord tipos) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
+        ConectarBD con = new ConectarBD();
+        Connection conexion = con.realiza_conexion();
+	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
+        create.delete(ESTRUCTURAPALABRAS).where(ESTRUCTURAPALABRAS.ESTRUCTURAID.equal(estructuraPalabra.getEstructuraid()).and(ESTRUCTURAPALABRAS.TIPOID.equal(tipos.getTipoid())));
+        return true;
+    }
 }

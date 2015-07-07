@@ -83,4 +83,11 @@ public class EstructuraDAO {
         return true;
     }
 
+    public boolean EliminarEstructura(EstructuraRecord estructura) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
+        ConectarBD con = new ConectarBD();
+        Connection conexion = con.realiza_conexion();
+	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
+        create.delete(ESTRUCTURA).where(ESTRUCTURA.ESTRUCTURAID.equal(estructura.getEstructuraid()));
+        return true;
+    }
 }
