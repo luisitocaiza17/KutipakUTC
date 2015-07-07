@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.6.0.xsd">
+<!-- Configure the database connection here -->
+<jdbc>
+<!-- Drive JOOQ -->
+<driver>com.mysql.jdbc.Driver</driver>
+<!-- tipo de base de datos, puerto, base de datos -->
+<url>jdbc:mysql://localhost:3306/kutipak</url>
+<!-- Usuario -->
+<user>root</user>
+<!-- Contraseña-->
+<password>root</password>
+</jdbc>
+<generator>
+<!-- The default code generator. You can override this one, to generate your own code style
+Defaults to org.jooq.util.DefaultGenerator -->
+<name>org.jooq.util.DefaultGenerator</name>
+<database>
+<!-- The database type. The format here is:
+org.util.[database].[database]Database -->
+<name>org.jooq.util.mysql.MySQLDatabase</name>
+<!-- The database schema (or in the absence of schema support, in your RDBMS this
+can be the owner, user, database name) to be generated -->
+
+<!-- Base de datos -->
+
+<inputSchema>kutipak</inputSchema>
+
+<!-- tabla o tablas a elegir-->
+
+<includes>.*</includes>
+
+
+
+<excludes></excludes>
+</database>
+<generate>
+<pojos>true</pojos>
+</generate>
+<target>
+
+<!-- en que paquete se va almacenar esto debe direccionar a la ubicacion -->
+    
+<packageName>persistencia</packageName>
+
+<!-- especificar la ruta donde se va a almacenar -->
+
+<directory>C:\Users\luisito\OneDrive\Documentos\tesis\Kutipak UTC\Aplicacion\KUTIPAKUTC\src\java\com\datos</directory>
+</target>
+</generator>
+</configuration>
+
+<!-- 
+1.- Una vez configurado el configuracion.xml, se debe ejecutar el .bath para que
+se generen las clases de los elementos de la base de datos.
+2.- Para que los herrores se corrigan se debe agregar los .jar a las librerias del
+proyecto.
+-->
+
+
+
