@@ -13,6 +13,42 @@
         <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/bootstrap/styles.css" rel="stylesheet">
+        <script src="../js/jquery.min.js"></script>
+        <script>
+            var usuario = "";
+            var contrasenia = "";
+            $(document).ready(function () {
+                $("#entrar").bind({click: function () {
+                    usuario=$('#usuario').val();
+                    contrasenia=$('#contrasenia').val(); 
+                    alert("usuario: "+usuario+" clave : "+contrasenia);
+                    verificar(usuario,contrasenia);
+                }
+            })
+            });
+            
+            function verificar(usuario1,contrasenia1){
+                $.ajax({
+                url: '../Login_Servlet',
+                data: {
+                    "usuario": usuario1,
+                    "contrasenia": contrasenia1
+                },
+                async: false,
+                type: 'POST',
+                datatype: 'json',
+                success: function (data) {
+                     if(data.success===true){
+                            $("#msgPopup").show();
+                    }else{
+                                alert("Existio un Error en el proceso Erro: ")
+                                return false;
+                            }
+                    
+                }
+            });
+            }
+        </script>
     </head>
     <body>
         <div class="row">
@@ -26,13 +62,13 @@
 
                 <form class="col-lg-12">
                     <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
-                        <input class="form-control input-lg" title="Don't worry. We hate spam, and will not share your email with anyone." placeholder="Usuario" type="text">
+                        <input class="form-control input-lg" id="usuario" placeholder="Usuario" type="text">
                     </div>
                     <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
-                        <input class="form-control input-lg" title="Don't worry. We hate spam, and will not share your email with anyone." placeholder="Contraseña" type="text">
+                        <input class="form-control input-lg" id="contrasenia" placeholder="Contraseña" type="text">
                     </div>
                     <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
-                        <input class="form-control btn btn-primary " type="BUTTON" value="INGRESA! :)!">
+                        <input class="form-control btn btn-primary " type="BUTTON" id="entrar" value="INGRESA! :)!">
                     </div>
                 </form>
             </div>
@@ -52,8 +88,7 @@
     </div> <!-- /container full -->
 
     <!-- script references -->
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
 </body>
 </body>
 </html>

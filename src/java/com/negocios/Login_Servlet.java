@@ -70,12 +70,13 @@ public class Login_Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        System.out.println("si entro");
+        String usuario = request.getParameter("usuario") == null ? "" : request.getParameter("usuario");
+        String clave = request.getParameter("contrasenia") == null ? "" : request.getParameter("contrasenia");
+        System.out.println("usu: "+usuario+" clave :"+clave);
         /*PAGINA DE LOGUE DE ADMINISTRADORES*/
         JSONObject result = new JSONObject();
-        
-        String usuario="";
-        String clave="";
-        
+                       
         if(usuario.equals(null) || usuario.equals(""))
             usuario = "";
         if(clave.equals(null) || clave.equals(""))
