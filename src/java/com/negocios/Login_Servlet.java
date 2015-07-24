@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.ezmorph.Morpher;
 import persistencia.tables.records.UsuarioRecord;
 
 /**
@@ -69,13 +70,16 @@ public class Login_Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try{
+        JSONObject result = new JSONObject();
+        try{
         processRequest(request, response);
         System.out.println("si entro");
         String usuario = request.getParameter("usuario") == null ? "" : request.getParameter("usuario");
         String clave = request.getParameter("contrasenia") == null ? "" : request.getParameter("contrasenia");
         System.out.println("usu: "+usuario+" clave :"+clave);
         /*PAGINA DE LOGUE DE ADMINISTRADORES*/
-        JSONObject result = new JSONObject();
+        
                        
         if(usuario.equals(null) || usuario.equals(""))
             usuario = "";
@@ -115,9 +119,13 @@ public class Login_Servlet extends HttpServlet {
             Logger.getLogger(Login_Servlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         
-        
-        
+      }catch(Exception e){
+            e.printStackTrace();
+        }  
         
     }
 

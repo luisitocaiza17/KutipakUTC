@@ -29,7 +29,7 @@
             
             function verificar(usuario1,contrasenia1){
                 $.ajax({
-                url: '../Login_Servlet',
+                url: '../Login_Controller',
                 data: {
                     "usuario": usuario1,
                     "contrasenia": contrasenia1
