@@ -21,34 +21,35 @@
                 $("#entrar").bind({click: function () {
                     usuario=$('#usuario').val();
                     contrasenia=$('#contrasenia').val(); 
-                    alert("usuario: "+usuario+" clave : "+contrasenia);
+                   
                     verificar(usuario,contrasenia);
                 }
             })
             });
             
-            function verificar(usuario1,contrasenia1){
-                $.ajax({
-                url: '../Login_Controller',
-                data: {
-                    "usuario": usuario1,
-                    "contrasenia": contrasenia1
-                },
-                async: false,
-                type: 'POST',
-                datatype: 'json',
-                success: function (data) {
-                     if(data.success===true){
-                            $("#msgPopup").show();
-                    }else{
-                                alert("Existio un Error en el proceso Erro: ")
-                                return false;
-                            }
-                    
-                }
-            });
-            }
+//            function verificar(usuario1,contrasenia1){
+//                $.ajax({
+//                url: '../Login_Controller',
+//                data: {
+//                    "usuario": usuario1,
+//                    "contrasenia": contrasenia1
+//                },
+//                async: true,
+//                type: 'POST',
+//                datatype: 'jsonp',
+//                success: function (data) {
+//                     if(data.success===true){
+//                            alert("EXITO")
+//                    }else{
+//                                alert("EL USUARIO NO EXISTE, VUELVA A INTENTARLO")
+//                                return false;
+//                            }
+//                    
+//                }
+//            });
+//            }
         </script>
+        
     </head>
     <body>
         <div class="row">
@@ -60,16 +61,17 @@
 
                 <br><br><br>
 
-                <form class="col-lg-12">
+                <form class="col-lg-12"  METHOD="POST" ACTION="../Login_Controller">
                     <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
-                        <input class="form-control input-lg" id="usuario" placeholder="Usuario" type="text">
+                        <input class="form-control input-lg" id="usuario" placeholder="Usuario" name ="usuario" type="text">
                     </div>
                     <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
-                        <input class="form-control input-lg" id="contrasenia" placeholder="Contraseña" type="text">
+                        <input class="form-control input-lg" id="contrasenia" placeholder="Contraseña" name ="contrasenia" type="text">
                     </div>
                     <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
-                        <input class="form-control btn btn-primary " type="BUTTON" id="entrar" value="INGRESA! :)!">
+                        <input class="form-control btn btn-primary " type="submit" id="entrar"  value="INGRESA! :)!">
                     </div>
+                   
                 </form>
             </div>
 

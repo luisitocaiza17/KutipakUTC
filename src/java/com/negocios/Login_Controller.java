@@ -5,15 +5,20 @@
  */
 package com.negocios;
 
+import com.datos.DAO.UsuarioDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import net.sf.json.JSONObject;
 import net.sf.ezmorph.Morpher;
+import persistencia.tables.records.UsuarioRecord;
 /**
  *
  * @author luisito
@@ -32,7 +37,7 @@ public class Login_Controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+       // response.setContentType("text/html;charset=UTF-8");
        
     }
 
@@ -48,7 +53,7 @@ public class Login_Controller extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       // processRequest(request, response);
     }
 
     /**
@@ -62,14 +67,43 @@ public class Login_Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-         try{
-             JSONObject result = new JSONObject();
+        
+        HttpSession session = request.getSession();
+       try{
+             
              String usuario = request.getParameter("usuario") == null ? "" : request.getParameter("usuario");
              String clave = request.getParameter("contrasenia") == null ? "" : request.getParameter("contrasenia");
-             System.out.println("usu: "+usuario+" clave :"+clave);
+             UsuarioRecord UsuarioVerifica= new UsuarioRecord();
+             UsuarioVerifica.setNombreusuario(usuario);
+             UsuarioVerifica.setContrasenia(clave);
+             System.out.println(""+usuario+" : "+clave);
+             List<UsuarioRecord> results =UsuarioDAO.ConsultarUsuariosEspecificosexistente(UsuarioVerifica);
+             int contador=0;
+             	
+             for(UsuarioRecord rs : results){
+                 contador++;
+                 session.setAttribute("usuario", rs.getUsuarioid());
+             }
+             if(contador>0){
+                  response.sendRedirect("jsp/administradorPrincipal.jsp");
+             }
+             else{ 
+                 PrintWriter out = response.getWriter();
+                   out.println("<script type=\"text/javascript\">");
+                   out.println("alert('Usuario o Contraseña Incorrecta vuelva a Intentarlo');");
+                   out.println("location='jsp/login.jsp';");
+                   out.println("</script>");
+                 
+             }
+             return;
+             
           }catch(Exception e){
-            e.printStackTrace();
+             e.printStackTrace();
+             PrintWriter out = response.getWriter();
+                   out.println("<script type=\"text/javascript\">");
+                   out.println("alert('Usuario o Contraseña Incorrecta vuelva a Intentarlo');");
+                   out.println("location='jsp/login.jsp';");
+                   out.println("</script>");
         } 
         
         

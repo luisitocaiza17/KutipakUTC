@@ -24,7 +24,7 @@ import persistencia.tables.records.UsuarioRecord;
  * @author luisito
  */
 public class UsuarioDAO {
-    public List<UsuarioRecord> ConsultarUsuarios() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
+    public static List<UsuarioRecord> ConsultarUsuarios() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
         ConectarBD con = new ConectarBD();
         List<UsuarioRecord> listadoUsuarios= new ArrayList<UsuarioRecord>();
         Connection conexion= con.realiza_conexion();
@@ -43,7 +43,7 @@ public class UsuarioDAO {
         return listadoUsuarios;
     }
     
-     public List<UsuarioRecord> ConsultarUsuariosEspecificos(UsuarioRecord usuariosp) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
+     public static List<UsuarioRecord> ConsultarUsuariosEspecificos(UsuarioRecord usuariosp) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
         ConectarBD con = new ConectarBD();
         List<UsuarioRecord> listadoUsuarios= new ArrayList<UsuarioRecord>();
         Connection conexion= con.realiza_conexion();
@@ -67,6 +67,29 @@ public class UsuarioDAO {
         conexion.close();
         return listadoUsuarios;
     }
+     
+    public static List<UsuarioRecord> ConsultarUsuariosEspecificosexistente(UsuarioRecord usuariosp) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
+        ConectarBD con = new ConectarBD();
+        List<UsuarioRecord> listadoUsuarios= new ArrayList<UsuarioRecord>();
+        Connection conexion= con.realiza_conexion();
+        DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
+        Result<Record> result = create.select().from(USUARIO)
+                .where((USUARIO.NOMBREUSUARIO.equal(usuariosp.getNombreusuario())
+                                                .and(USUARIO.CONTRASENIA.equal(usuariosp.getContrasenia()))))
+                .fetch();
+        for(Record r : result){
+            UsuarioRecord losUsuarios = new UsuarioRecord();
+            losUsuarios.setUsuarioid(r.getValue(USUARIO.USUARIOID));
+            losUsuarios.setNombreusuario(r.getValue(USUARIO.NOMBREUSUARIO));
+            losUsuarios.setContrasenia(r.getValue(USUARIO.CONTRASENIA));
+            losUsuarios.setRol(r.getValue(USUARIO.ROL));
+            losUsuarios.setPersonaid(r.getValue(USUARIO.PERSONAID));
+            listadoUsuarios.add(losUsuarios);
+        }
+        conexion.close();
+        return listadoUsuarios;
+    } 
+     
      
     /*Metodo Para almacenar los Personas*/
     public boolean grabarUsuarios(UsuarioRecord usuariosp) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
