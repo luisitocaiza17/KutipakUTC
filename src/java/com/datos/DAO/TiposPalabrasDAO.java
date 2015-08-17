@@ -35,6 +35,7 @@ public class TiposPalabrasDAO {
             TipospalabrasRecord tipos = new TipospalabrasRecord();
             tipos.setTipoid(r.getValue(TIPOSPALABRAS.TIPOID));
             tipos.setNombretipo(r.getValue(TIPOSPALABRAS.NOMBRETIPO));
+            tipos.setNemotecnico(r.getValue(TIPOSPALABRAS.NEMOTECNICO));
             listadoTiposPalabras.add(tipos);
         }
         conexion.close();
@@ -52,6 +53,7 @@ public class TiposPalabrasDAO {
             TipospalabrasRecord tipos = new TipospalabrasRecord();
             tipos.setTipoid(r.getValue(TIPOSPALABRAS.TIPOID));
             tipos.setNombretipo(r.getValue(TIPOSPALABRAS.NOMBRETIPO));
+            tipos.setNemotecnico(r.getValue(TIPOSPALABRAS.NEMOTECNICO));
             listadoTiposPalabras.add(tipos);
         }
         conexion.close();
@@ -62,7 +64,7 @@ public class TiposPalabrasDAO {
         ConectarBD con = new ConectarBD();
         Connection conexion = con.realiza_conexion();
 	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
-        create.insertInto(Tipospalabras.TIPOSPALABRAS, Tipospalabras.TIPOSPALABRAS.NOMBRETIPO).values(tipos.getNombretipo()).execute();
+        create.insertInto(Tipospalabras.TIPOSPALABRAS, Tipospalabras.TIPOSPALABRAS.NOMBRETIPO,Tipospalabras.TIPOSPALABRAS.NEMOTECNICO).values(tipos.getNombretipo(),tipos.getNemotecnico()).execute();
         conexion.close();
         return true;
     }

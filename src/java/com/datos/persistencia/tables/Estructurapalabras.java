@@ -16,7 +16,7 @@ import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.TableImpl;
 
-import com.datos.persistencia.Keys;
+import persistencia.Keys;
 import persistencia.Kutipak;
 import persistencia.tables.records.EstructurapalabrasRecord;
 

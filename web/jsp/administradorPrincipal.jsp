@@ -14,8 +14,95 @@
         <title>Administrador</title>
         <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/Kendo/kendo.common.min.css" />
+        <link rel="stylesheet" href="../css/Kendo/kendo.default.min.css">
+        
         <link href="../css/bootstrap/styles.css" rel="stylesheet">
         <script src="../js/jquery.min.js"></script>
+        <script src="../js/Kendo/kendo.all.min.js"></script>
+     <script>
+            var tipoConsulta="";
+                        
+            function cargaInicial(tipoConsulta){
+                $.ajax({
+                    url: '../Administrador_Controller',
+                    data: {
+                        "tipoConsulta": tipoConsulta
+                    },
+                    async: true,
+                    type: 'POST',
+                    datatype: 'json',
+                    success: function (data) {
+                         var listadoTipos = data.listadoTipos;
+                         var selogro=data.success;
+                         if(selogro===true){
+                             
+                                $.each(listadoTipos, function (index) {
+
+                                     $("#dataTable").append("<tr>" +
+                                     "<td style='width: 10%'><a onclick='redirecciona();'>" + listadoTipos[index].tipo + "</a></td>" +
+                                     "<td style='width: 10%'>" + listadoTipos[index].nemotecnico + "</td>" +
+                                     "</tr>");
+                                 });
+                             }else{
+                                 alert ("no existe nada en la BD");
+                             }
+                    }
+                });
+            }
+            
+           $(document).ready(function () {
+               tipoConsulta="TodosTipos"
+               cargaInicial(tipoConsulta);
+               $('#Contenidos').hide();
+               
+               $("#guardar").click(function () {
+                        var operacion="insertar";
+                        var idTipoPalabra="";
+                        var nombrePalabra=$("#tipoPalabra").val();
+                        var nemotecnico=$("#nemotecnico").val();
+                        
+                        Procesos(operacion,idTipoPalabra,nombrePalabra,nemotecnico);
+                   });
+                
+               
+            });
+            
+            function redirecciona(){
+                
+                $('#TablaTodos').hide();
+                $('#Contenidos').show();
+                $('#nuevo').hide();
+                
+                
+            }
+            
+            function Procesos(operacion,idTipoPalabra, nombrePalabra,nemotecnico){
+                $.ajax({
+                    url: '../Administrador_Controller',
+                    data: {
+                        "operacion": operacion,
+                        "idTipoPalabra":idTipoPalabra,
+                        "nombrePalabra":nombrePalabra,
+                        "nemotecnico":nemotecnico
+                    },
+                    async: true,
+                    type: 'POST',
+                    datatype: 'json',
+                    success: function (data) {
+                         var selogro=data.success;
+                         var mensaje=data.mensaje;
+                          if(selogro===true){
+                                    alert ("GRABADO EXITOSO");
+                              }else{
+                                 alert ("GRABADO INCORRECTO ERROR:"+mensaje);
+                             }
+                          
+                    }
+                });
+            }
+            
+        </script>
     </head>
     <body>
             <!-- Navigation -->
@@ -84,7 +171,61 @@
                 <h2>Tipos de Palabras</h2>
                 <p>Los tipos de palabras son distintivos básicos de cada palabra, estas pueden ser adjetivos, advervios,
                     sustantivos, verbos entre otras, esto ayudará a mejorar la traducción</p>
-            </div>
+                
+                <br>
+                <div align="right">
+                    <button id="nuevo" type="button" class="btn btn-default" onclick="redirecciona();">Nuevo</button>
+                </div>
+                <br>
+                <div id="TablaTodos" class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <td style='width: 50%'>Tipo de Palabra</td>
+                                <td style='width: 50%'>Nombre Nemotecnico</td>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTable">
+                        </tbody>
+                                
+                    </table>
+                    </div>
+                    <div class="col-md-3"></div>
+                    
+                </div>
+                <div id="Contenidos" class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <form class="form-horizontal">
+                                <div class="form-group">
+                                  <label for="tipoPalabra" class="col-sm-6 control-label">TIPO DE PALABRA</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="tipoPalabra" placeholder="Sujeto,Verbo,etc ">
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="nemotecnico" class="col-sm-6 control-label">NEMOTÉCNICO</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="nemotecnico" placeholder="SUJ,VER,etc">
+                                  </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                  <div class="col-sm-offset-6 col-sm-10">
+                                    <button type="submit" id="guardar" class="btn btn-default">Guardar</button>
+                                  </div>
+                                </div>
+                              </form>
+                                
+                    </table>
+                    </div>
+                    <div class="col-md-3"></div>
+                    
+                </div>   
+
+
         </div>
         <!-- /.row -->
 

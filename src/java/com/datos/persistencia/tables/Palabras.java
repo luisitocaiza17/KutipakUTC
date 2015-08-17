@@ -17,7 +17,7 @@ import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.TableImpl;
 
-import com.datos.persistencia.Keys;
+import persistencia.Keys;
 import persistencia.Kutipak;
 import persistencia.tables.records.PalabrasRecord;
 
@@ -35,7 +35,7 @@ import persistencia.tables.records.PalabrasRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Palabras extends TableImpl<PalabrasRecord> {
 
-	private static final long serialVersionUID = -902871927;
+	private static final long serialVersionUID = -450150440;
 
 	/**
 	 * The reference instance of <code>kutipak.palabras</code>
@@ -136,7 +136,7 @@ public class Palabras extends TableImpl<PalabrasRecord> {
 	 */
 	@Override
 	public List<ForeignKey<PalabrasRecord, ?>> getReferences() {
-		return Arrays.<ForeignKey<PalabrasRecord, ?>>asList(Keys.FK_IDIOMASPALABRAS, Keys.FK_TIPOPALABRAS, Keys.FK_KEOEK, Keys.FK_TIEMPOSPALABRAS);
+		return Arrays.<ForeignKey<PalabrasRecord, ?>>asList(Keys.FK_IDIOMASPALABRAS, Keys.FK_TIPOPALABRAS, Keys.FK_KEOEK);
 	}
 
 	/**
