@@ -125,13 +125,17 @@
             }
             
             function eliminarRegistro(){
-                var operacion="eliminar";
-                var idTipoPalabra=$("#idTipoPalabra").val();
-                var nombrePalabra="";
-                var nemotecnico="";
-                Procesos(operacion,idTipoPalabra, nombrePalabra,nemotecnico);
-                var tipoConsulta="TodosTipos";
-                cargaInicial(tipoConsulta);
+                 var seguro = confirm("Esta seguro que desea borrar el tipo de palabra?");
+                if (seguro == true) {
+                    var operacion="eliminar";
+                    var idTipoPalabra=$("#idTipoPalabra").val();
+                    var nombrePalabra="";
+                    var nemotecnico="";
+                    Procesos(operacion,idTipoPalabra, nombrePalabra,nemotecnico);
+                    var tipoConsulta="TodosTipos";
+                    cargaInicial(tipoConsulta);
+                }
+                
             }
             
             function Procesos(operacion,idTipoPalabra, nombrePalabra,nemotecnico){

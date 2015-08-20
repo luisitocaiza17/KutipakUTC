@@ -36,6 +36,7 @@ public class TiemposDAO {
             TiemposRecord Tiempos = new TiemposRecord();
             Tiempos.setTiemposid(r.getValue(TIEMPOS.TIEMPOSID));
             Tiempos.setNombretiempo(r.getValue(TIEMPOS.NOMBRETIEMPO));
+            Tiempos.setNemotecnicotiempo(r.getValue(TIEMPOS.NEMOTECNICOTIEMPO));
             listadoTiempos.add(Tiempos);
         }
         conexion.close();
@@ -48,11 +49,12 @@ public class TiemposDAO {
         List<TiemposRecord> listadoTiempos= new ArrayList<TiemposRecord>();
         Connection conexion= con.realiza_conexion();
         DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
-        Result<Record> result = create.select().from(TIEMPOS).where(TIEMPOS.TIEMPOSID.equal(TiempoIngreso.getTiemposid()).or(TIEMPOS.NOMBRETIEMPO.equal(TiempoIngreso.getNombretiempo()))).fetch();
+        Result<Record> result = create.select().from(TIEMPOS).where(TIEMPOS.TIEMPOSID.equal(TiempoIngreso.getTiemposid()).or(TIEMPOS.NOMBRETIEMPO.equal(TiempoIngreso.getNombretiempo())).or(TIEMPOS.NEMOTECNICOTIEMPO.equal(TiempoIngreso.getNemotecnicotiempo()))).fetch();
         for(Record r : result){
             TiemposRecord Tiempos = new TiemposRecord();
             Tiempos.setTiemposid(r.getValue(TIEMPOS.TIEMPOSID));
             Tiempos.setNombretiempo(r.getValue(TIEMPOS.NOMBRETIEMPO));
+            Tiempos.setNemotecnicotiempo(r.getValue(TIEMPOS.NEMOTECNICOTIEMPO));
             listadoTiempos.add(Tiempos);
         }
         conexion.close();
@@ -64,7 +66,7 @@ public class TiemposDAO {
         ConectarBD con = new ConectarBD();
         Connection conexion = con.realiza_conexion();
 	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
-        create.insertInto(Tiempos.TIEMPOS, Tiempos.TIEMPOS.NOMBRETIEMPO).values(tiempo.getNombretiempo()).execute();
+        create.insertInto(Tiempos.TIEMPOS, Tiempos.TIEMPOS.NOMBRETIEMPO,Tiempos.TIEMPOS.NEMOTECNICOTIEMPO).values(tiempo.getNombretiempo(),tiempo.getNemotecnicotiempo()).execute();
         conexion.close();
         return true;
     }
@@ -74,7 +76,7 @@ public class TiemposDAO {
         ConectarBD con = new ConectarBD();
         Connection conexion = con.realiza_conexion();
 	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
-        create.update(TIEMPOS).set(TIEMPOS.NOMBRETIEMPO,tiempo.getNombretiempo()).where(TIEMPOS.TIEMPOSID.equal(tiempo.getTiemposid())).execute();
+        create.update(TIEMPOS).set(TIEMPOS.NOMBRETIEMPO,tiempo.getNombretiempo()).set(TIEMPOS.NEMOTECNICOTIEMPO,tiempo.getNemotecnicotiempo()).where(TIEMPOS.TIEMPOSID.equal(tiempo.getTiemposid())).execute();
         conexion.close();
         return true;
     }
@@ -83,7 +85,7 @@ public class TiemposDAO {
         ConectarBD con = new ConectarBD();
         Connection conexion = con.realiza_conexion();
 	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
-        create.delete(TIEMPOS).where(TIEMPOS.TIEMPOSID.equal(tiempo.getTiemposid()));
+        create.delete(TIEMPOS).where(TIEMPOS.TIEMPOSID.equal(tiempo.getTiemposid())).execute();
         return true;
     }
 }

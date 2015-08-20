@@ -5,13 +5,18 @@
  */
 package com.negocios;
 
+import com.datos.DAO.TiemposDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import persistencia.tables.records.TiemposRecord;
 
 /**
  *
@@ -31,19 +36,7 @@ public class Tiempos_Controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Tiempos_Controller</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Tiempos_Controller at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,7 +51,7 @@ public class Tiempos_Controller extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       
     }
 
     /**
@@ -72,7 +65,91 @@ public class Tiempos_Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        JSONObject result = new JSONObject();
+		try {
+                    
+                        JSONObject planJSONObject = new JSONObject();
+                        String tipoConsulta = request.getParameter("tipoConsulta") == null ? "" : request.getParameter("tipoConsulta");
+			String operacion = request.getParameter("operacion") == null ? "" : request.getParameter("operacion");
+			String idTiempo = request.getParameter("idTiempo") == null ? "" : request.getParameter("idTiempo");
+			
+                        
+                        if(tipoConsulta.equals("TodosTipos")){
+                             TiemposDAO TodoTiempos = new TiemposDAO();
+                             List<TiemposRecord> results = TodoTiempos.ConsultarTiempos();
+                             JSONArray JSONArrayTipos = new JSONArray();  
+                             for(TiemposRecord rs : results){
+                                 planJSONObject.put("tiempo", rs.getNombretiempo());
+                                 planJSONObject.put("nemotecnico", rs.getNemotecnicotiempo());
+                                 planJSONObject.put("id", rs.getTiemposid());
+                                 JSONArrayTipos.add(planJSONObject);
+                             }
+                             result.put("listadoTiempos", JSONArrayTipos);
+                             result.put("success", Boolean.TRUE);
+                         }
+                        
+                        /*procesos con los datos*/
+                        if(operacion.toUpperCase().equals("INSERTAR")&& idTiempo.equals("")){
+                            
+                            String tiempo = request.getParameter("tiempo") == null ? "" : request.getParameter("tiempo");
+			    String nemotecnico = request.getParameter("nemotecnico") == null ? "" : request.getParameter("nemotecnico");
+			    
+                            TiemposRecord elTiempo= new TiemposRecord();
+                            elTiempo.setNombretiempo(tiempo.toUpperCase());
+                            elTiempo.setNemotecnicotiempo(nemotecnico.toUpperCase());
+                            TiemposDAO TiempoProceso = new TiemposDAO();
+                            
+                            List<TiemposRecord> results =TiempoProceso.ConsultarTiemposEspecifico(elTiempo);
+                            int existe=0;
+                            for(TiemposRecord rs : results){
+                                existe++;
+                            }
+                            if(existe==0){
+                                TiempoProceso.grabarTiempo(elTiempo);
+                                result.put("success", Boolean.TRUE);
+                                result.put("mensaje", "GUARDADO CORRECTO");
+                            }else{
+                                result.put("success", Boolean.FALSE);
+                                result.put("mensaje", "TIPO DE PALABRA DUPLICADA, YA EXISTE!!");
+                            }
+                            
+                        }
+                        if(operacion.toUpperCase().equals("ACTUALIZAR") && !idTiempo.equals("")){
+                            String tiempo = request.getParameter("tiempo") == null ? "" : request.getParameter("tiempo");
+			    String nemotecnico = request.getParameter("nemotecnico") == null ? "" : request.getParameter("nemotecnico");
+			    
+                            TiemposRecord elTiempo= new TiemposRecord();
+                            elTiempo.setNombretiempo(tiempo.toUpperCase());
+                            elTiempo.setNemotecnicotiempo(nemotecnico.toUpperCase());
+                            elTiempo.setTiemposid(Integer.parseInt(idTiempo));
+                            TiemposDAO TiemposProcesos = new TiemposDAO();
+                            TiemposProcesos.ActualizarTiempo(elTiempo);
+                            
+                            result.put("success", Boolean.TRUE);
+                            result.put("mensaje", "ACTUALIZADO CORRECTO");
+                        }
+                        
+                        if(operacion.toUpperCase().equals("ELIMINAR")){
+                            TiemposRecord elTiempo= new TiemposRecord();
+                            elTiempo.setTiemposid(Integer.parseInt(idTiempo));
+                            TiemposDAO tiposPalabrasProcesos = new TiemposDAO();
+                            tiposPalabrasProcesos.EliminarTiempos(elTiempo);
+                            result.put("success", Boolean.TRUE);
+                            result.put("mensaje", "ELIMINACION DE REGISTRO CORRECTA");
+                        }
+                        
+                         response.setContentType("application/json; charset=ISO-8859-1"); 
+                         result.write(response.getWriter());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+			result.put("success", Boolean.FALSE);
+			result.put("mensaje",e);
+			response.setContentType("application/json; charset=ISO-8859-1"); 
+			result.write(response.getWriter());
+                       
+                }
+        
+        
     }
 
     /**

@@ -17,6 +17,173 @@
         <link href="../css/bootstrap/styles.css" rel="stylesheet">
         <script src="../js/jquery.min.js"></script>
         <script src="../js/Kendo/kendo.all.min.js"></script>
+        <script>
+            var tipoConsulta="";
+            
+            $(document).ready(function () {
+               tipoConsulta="TodosTipos";
+               cargaInicial(tipoConsulta);
+               $('#Contenidos').hide();
+               
+               $("#guardar").click(function () {
+                        
+                       
+                        var idTiempo=$("#idTiempo").val();
+                        var tiempo=$("#tiempo").val();
+                        var nemotecnico=$("#nemotecnico").val();
+                        if(tiempo==="" || nemotecnico==="" ){
+                            if(tiempo===""){
+                                alert("Por favor ingrese el Tiempo");
+                           }
+                           if(nemotecnico===""){
+                                alert("Por favor ingrese el Nemoténico");
+                           } 
+                            
+                        }else{
+                            if(idTiempo===""){
+                                var operacion="insertar";
+                                Procesos(operacion,idTiempo,tiempo,nemotecnico);
+                                tipoConsulta="TodosTipos";
+                                cargaInicial(tipoConsulta);
+                            }else{
+                                var operacion="actualizar";
+                                Procesos(operacion,idTiempo,tiempo,nemotecnico);
+                                tipoConsulta="TodosTipos";
+                                cargaInicial(tipoConsulta);
+                            }
+                            
+                        }
+                        
+                   });
+                
+               
+            });
+                        
+            function cargaInicial(tipoConsulta){
+                $("#idTiempo").val("");
+                $('#Contenidos').hide();
+                $('#TablaTodos').show();
+                $('#nuevo').show();
+                $("#tiempo").val("");
+                $("#nemotecnico").val("");
+                $.ajax({
+                    url: '../Tiempos_Controller',
+                    data: {
+                        "tipoConsulta": tipoConsulta
+                    },
+                    async: false,
+                    type: 'POST',
+                    datatype: 'json',
+                    success: function (data) {
+                         var listadoTipos = data.listadoTiempos;
+                         var selogro=data.success;
+                         if(selogro===true){
+                                $("#dataTable").children().remove();
+                                $.each(listadoTipos, function (index) {
+
+                                     $("#dataTable").append("<tr>" +
+                                     "<td style='width: 10%'><a onclick='redireccionaActualizar(&#39;"+listadoTipos[index].id+"&#39;,&#39;"+listadoTipos[index].tiempo+"&#39;,&#39;"+listadoTipos[index].nemotecnico+"&#39;);'>" + listadoTipos[index].tiempo + "</a></td>" +
+                                     "<td style='width: 10%'>" + listadoTipos[index].nemotecnico + "</td>" +
+                                     "</tr>");
+                                 });
+                             }else{
+                                 alert ("no existe nada en la BD");
+                             }
+                    }
+                });
+            }
+            
+            function redireccionaInsertar(){
+                
+                $('#TablaTodos').hide();
+                $('#Contenidos').show();
+                $('#nuevo').hide();
+                $("#guardar").text("GUARDAR");
+                $('#eliminar').hide();    
+            
+            }
+            
+            function redireccionaActualizar(id, nombre, nemotecnico){
+                
+                $('#TablaTodos').hide();
+                $('#Contenidos').show();
+                $('#nuevo').hide();
+                $('#eliminar').show();
+                if(id!==""){
+                    $("#guardar").text("ACTUALIZAR");
+                    $("#tiempo").val(nombre);
+                    $("#nemotecnico").val(nemotecnico);
+                    $("#idTiempo").val(id);
+                    
+                    //Procesos("ACTUALIZAR",id, nombrePalabra,nemotecnico);
+                    
+                }
+            
+            }
+            
+            function eliminarRegistro(){
+                
+               var seguro = confirm("Esta seguro que desea borrar el tiempo?");
+                if (seguro == true) {
+                    var operacion="eliminar";
+                    var idTipoPalabra=$("#idTiempo").val();
+                    var nombrePalabra="";
+                    var nemotecnico="";
+                    Procesos(operacion,idTipoPalabra, nombrePalabra,nemotecnico);
+                    var tipoConsulta="TodosTipos";
+                    cargaInicial(tipoConsulta);
+                } 
+                
+            }
+            
+            function Procesos(operacion,idTiempo, tiempo,nemotecnico){
+                
+                $.ajax({
+                    url: '../Tiempos_Controller',
+                    data: {
+                        "operacion": operacion,
+                        "idTiempo":idTiempo,
+                        "tiempo":tiempo,
+                        "nemotecnico":nemotecnico
+                    },
+                    async: false,
+                    type: 'POST',
+                    datatype: 'json',
+                    success: function (data) {
+                         var selogro=data.success;
+                         var mensaje=data.mensaje;
+                          if(selogro===true){
+                                    alert (""+mensaje);
+                              }else{
+                                 alert ("PROCESO INCORRECTO ERROR:"+mensaje);
+                             }
+                          
+                    }
+                    
+                });
+                
+            }
+            
+            function cerrarSesion(){
+            $.ajax({
+                url : '../Salir',      				
+                type : 'POST',
+                datatype : 'json',
+                success : function(data) {   
+                    if (data.success == true){
+                            window.location= "../index.jsp";
+                    }
+                }
+            });	                
+         }
+         
+         function abreCambio(){
+             var agente = window.open("cambioContrasenia.jsp","ventana1","directories=no,width=500,height=500,resizable=no,scrollbars=yes,top=0,left=260,status=1");
+             agente.opener = self;
+        }
+            
+        </script>
+        
     </head>
     <body>
         <%// Permitimos el acceso si la session existe		
@@ -106,7 +273,7 @@
                         <table class="table table-hover table-bordered">
                         <thead>
                             <tr>
-                                <td style='width: 50%'>Tipo de Palabra</td>
+                                <td style='width: 50%'>Tiempos</td>
                                 <td style='width: 50%'>Nombre Nemotécnico</td>
                             </tr>
                         </thead>
@@ -130,16 +297,16 @@
                         <br>
                         <form class="form-horizontal">
                                 <div class="form-group">
-                                  <label for="tipoPalabra" class="col-sm-6 control-label">TIPO DE PALABRA</label>
+                                  <label for="tiempo" class="col-sm-6 control-label">TIEMPO</label>
                                   <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="tipoPalabra" placeholder="Sujeto,Verbo,etc ">
+                                    <input type="text" class="form-control" id="tiempo" placeholder="Presente, Pasado, etc ">
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label for="nemotecnico" class="col-sm-6 control-label">NEMOTÉCNICO</label>
                                   <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="nemotecnico" placeholder="SUJ,VER,etc">
-                                    <input type="hidden" class="form-control" id="idTipoPalabra">
+                                    <input type="text" class="form-control" id="nemotecnico" placeholder="PRE, PAS">
+                                    <input type="hidden" class="form-control" id="idTiempo">
                                   </div>
                                 </div>
                                 
