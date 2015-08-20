@@ -85,7 +85,9 @@ public class Administrador_Controller extends HttpServlet {
                         JSONObject planJSONObject = new JSONObject();
                         String tipoConsulta = request.getParameter("tipoConsulta") == null ? "" : request.getParameter("tipoConsulta");
 			String operacion = request.getParameter("operacion") == null ? "" : request.getParameter("operacion");
+			String idTipoPalabra = request.getParameter("idTipoPalabra") == null ? "" : request.getParameter("idTipoPalabra");
 			
+                        
                         if(tipoConsulta.equals("TodosTipos")){
                              TiposPalabrasDAO tiposPalabras = new TiposPalabrasDAO();
                              List<TipospalabrasRecord> results = tiposPalabras.ConsultarTiposPalabras();
@@ -101,18 +103,55 @@ public class Administrador_Controller extends HttpServlet {
                          }
                         
                         /*procesos con los datos*/
-                        if(operacion.toUpperCase().equals("INSERTAR")){
+                        if(operacion.toUpperCase().equals("INSERTAR")&& idTipoPalabra.equals("")){
+                            
                             String nombrePalabra = request.getParameter("nombrePalabra") == null ? "" : request.getParameter("nombrePalabra");
 			    String nemotecnico = request.getParameter("nemotecnico") == null ? "" : request.getParameter("nemotecnico");
-			    TipospalabrasRecord tipoPalabras= new TipospalabrasRecord();
+			    
+                            TipospalabrasRecord tipoPalabras= new TipospalabrasRecord();
                             tipoPalabras.setNombretipo(nombrePalabra.toUpperCase());
                             tipoPalabras.setNemotecnico(nemotecnico.toUpperCase());
                             TiposPalabrasDAO tiposPalabrasProcesos = new TiposPalabrasDAO();
-                            tiposPalabrasProcesos.grabartiposPalabras(tipoPalabras);
-                            result.put("success", Boolean.TRUE);
-                            result.put("mensaje", "GUARDADO CORRECTO");
+                            
+                            List<TipospalabrasRecord> results =tiposPalabrasProcesos.ConsultarTiposPalabrasEspecificas(tipoPalabras);
+                            int existe=0;
+                            for(TipospalabrasRecord rs : results){
+                                existe++;
+                            }
+                            if(existe==0){
+                                tiposPalabrasProcesos.grabartiposPalabras(tipoPalabras);
+                                result.put("success", Boolean.TRUE);
+                                result.put("mensaje", "GUARDADO CORRECTO");
+                            }else{
+                                result.put("success", Boolean.FALSE);
+                                result.put("mensaje", "TIPO DE PALABRA DUPLICADA, YA EXISTE!!");
+                            }
+                            
                         }
-                       
+                        if(operacion.toUpperCase().equals("ACTUALIZAR") && !idTipoPalabra.equals("")){
+                            String nombrePalabra = request.getParameter("nombrePalabra") == null ? "" : request.getParameter("nombrePalabra");
+			    String nemotecnico = request.getParameter("nemotecnico") == null ? "" : request.getParameter("nemotecnico");
+			    
+                            TipospalabrasRecord tipoPalabras= new TipospalabrasRecord();
+                            tipoPalabras.setNombretipo(nombrePalabra.toUpperCase());
+                            tipoPalabras.setNemotecnico(nemotecnico.toUpperCase());
+                            tipoPalabras.setTipoid(Integer.parseInt(idTipoPalabra));
+                            TiposPalabrasDAO tiposPalabrasProcesos = new TiposPalabrasDAO();
+                            tiposPalabrasProcesos.ActualizarTipos(tipoPalabras);
+                            
+                            result.put("success", Boolean.TRUE);
+                            result.put("mensaje", "ACTUALIZADO CORRECTO");
+                        }
+                        
+                        if(operacion.toUpperCase().equals("ELIMINAR")){
+                            TipospalabrasRecord tipoPalabras= new TipospalabrasRecord();
+                            tipoPalabras.setTipoid(Integer.parseInt(idTipoPalabra));
+                            TiposPalabrasDAO tiposPalabrasProcesos = new TiposPalabrasDAO();
+                            tiposPalabrasProcesos.EliminarTipos(tipoPalabras);
+                            result.put("success", Boolean.TRUE);
+                            result.put("mensaje", "ELIMINACION DE REGISTRO CORRECTA");
+                        }
+                        
                          response.setContentType("application/json; charset=ISO-8859-1"); 
                          result.write(response.getWriter());
                     } catch (Exception e) {

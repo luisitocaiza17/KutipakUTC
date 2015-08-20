@@ -68,7 +68,7 @@ public class Login_Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
        try{
              
              String usuario = request.getParameter("usuario") == null ? "" : request.getParameter("usuario");
@@ -83,6 +83,7 @@ public class Login_Controller extends HttpServlet {
              for(UsuarioRecord rs : results){
                  contador++;
                  session.setAttribute("usuario", rs.getUsuarioid());
+                 session.setAttribute("nombre", rs.getNombreusuario());
              }
              if(contador>0){
                   response.sendRedirect("jsp/administradorPrincipal.jsp");

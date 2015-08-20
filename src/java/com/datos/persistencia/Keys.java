@@ -72,12 +72,12 @@ public class Keys {
 	// FOREIGN KEY definitions
 	// -------------------------------------------------------------------------
 
-	public static final ForeignKey<EstructuraRecord, IdiomasRecord> FK_IDIOMA_ESTRUCTURA = ForeignKeys0.FK_IDIOMA_ESTRUCTURA;
 	public static final ForeignKey<EstructurapalabrasRecord, TipospalabrasRecord> FK_ESTRUCTURASTIPOS = ForeignKeys0.FK_ESTRUCTURASTIPOS;
 	public static final ForeignKey<EstructurapalabrasRecord, EstructuraRecord> FK_PALABRASESTRUCTURAS = ForeignKeys0.FK_PALABRASESTRUCTURAS;
 	public static final ForeignKey<PalabrasRecord, IdiomasRecord> FK_IDIOMASPALABRAS = ForeignKeys0.FK_IDIOMASPALABRAS;
 	public static final ForeignKey<PalabrasRecord, TipospalabrasRecord> FK_TIPOPALABRAS = ForeignKeys0.FK_TIPOPALABRAS;
 	public static final ForeignKey<PalabrasRecord, PalabrasRecord> FK_KEOEK = ForeignKeys0.FK_KEOEK;
+	public static final ForeignKey<PalabrasRecord, TiemposRecord> FK_TIEMPOSPALABRAS = ForeignKeys0.FK_TIEMPOSPALABRAS;
 	public static final ForeignKey<UsuarioRecord, PersonasRecord> FK_PERSONAUSUARIO = ForeignKeys0.FK_PERSONAUSUARIO;
 
 	// -------------------------------------------------------------------------
@@ -106,12 +106,12 @@ public class Keys {
 	}
 
 	private static class ForeignKeys0 extends AbstractKeys {
-		public static final ForeignKey<EstructuraRecord, IdiomasRecord> FK_IDIOMA_ESTRUCTURA = createForeignKey(persistencia.Keys.KEY_IDIOMAS_PRIMARY, Estructura.ESTRUCTURA, Estructura.ESTRUCTURA.IDIOMAID);
 		public static final ForeignKey<EstructurapalabrasRecord, TipospalabrasRecord> FK_ESTRUCTURASTIPOS = createForeignKey(persistencia.Keys.KEY_TIPOSPALABRAS_PRIMARY, Estructurapalabras.ESTRUCTURAPALABRAS, Estructurapalabras.ESTRUCTURAPALABRAS.TIPOID);
 		public static final ForeignKey<EstructurapalabrasRecord, EstructuraRecord> FK_PALABRASESTRUCTURAS = createForeignKey(persistencia.Keys.KEY_ESTRUCTURA_PRIMARY, Estructurapalabras.ESTRUCTURAPALABRAS, Estructurapalabras.ESTRUCTURAPALABRAS.ESTRUCTURAID);
 		public static final ForeignKey<PalabrasRecord, IdiomasRecord> FK_IDIOMASPALABRAS = createForeignKey(persistencia.Keys.KEY_IDIOMAS_PRIMARY, Palabras.PALABRAS, Palabras.PALABRAS.IDIOMAID);
 		public static final ForeignKey<PalabrasRecord, TipospalabrasRecord> FK_TIPOPALABRAS = createForeignKey(persistencia.Keys.KEY_TIPOSPALABRAS_PRIMARY, Palabras.PALABRAS, Palabras.PALABRAS.TIPOID);
 		public static final ForeignKey<PalabrasRecord, PalabrasRecord> FK_KEOEK = createForeignKey(persistencia.Keys.KEY_PALABRAS_PRIMARY, Palabras.PALABRAS, Palabras.PALABRAS.PAL_PALABRAID);
+		public static final ForeignKey<PalabrasRecord, TiemposRecord> FK_TIEMPOSPALABRAS = createForeignKey(persistencia.Keys.KEY_TIEMPOS_PRIMARY, Palabras.PALABRAS, Palabras.PALABRAS.TIEMPOSID);
 		public static final ForeignKey<UsuarioRecord, PersonasRecord> FK_PERSONAUSUARIO = createForeignKey(persistencia.Keys.KEY_PERSONAS_PRIMARY, Usuario.USUARIO, Usuario.USUARIO.PERSONAID);
 	}
 }

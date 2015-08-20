@@ -22,24 +22,28 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tiempos implements Serializable {
 
-	private static final long serialVersionUID = -1133246082;
+	private static final long serialVersionUID = -507712665;
 
 	private Integer tiemposid;
 	private String  nombretiempo;
+	private String  nemotecnicotiempo;
 
 	public Tiempos() {}
 
 	public Tiempos(Tiempos value) {
 		this.tiemposid = value.tiemposid;
 		this.nombretiempo = value.nombretiempo;
+		this.nemotecnicotiempo = value.nemotecnicotiempo;
 	}
 
 	public Tiempos(
 		Integer tiemposid,
-		String  nombretiempo
+		String  nombretiempo,
+		String  nemotecnicotiempo
 	) {
 		this.tiemposid = tiemposid;
 		this.nombretiempo = nombretiempo;
+		this.nemotecnicotiempo = nemotecnicotiempo;
 	}
 
 	public Integer getTiemposid() {
@@ -56,5 +60,13 @@ public class Tiempos implements Serializable {
 
 	public void setNombretiempo(String nombretiempo) {
 		this.nombretiempo = nombretiempo;
+	}
+
+	public String getNemotecnicotiempo() {
+		return this.nemotecnicotiempo;
+	}
+
+	public void setNemotecnicotiempo(String nemotecnicotiempo) {
+		this.nemotecnicotiempo = nemotecnicotiempo;
 	}
 }

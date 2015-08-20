@@ -34,7 +34,7 @@ import persistencia.tables.records.TiemposRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tiempos extends TableImpl<TiemposRecord> {
 
-	private static final long serialVersionUID = 757340290;
+	private static final long serialVersionUID = -1457676343;
 
 	/**
 	 * The reference instance of <code>kutipak.tiempos</code>
@@ -58,6 +58,11 @@ public class Tiempos extends TableImpl<TiemposRecord> {
 	 * The column <code>kutipak.tiempos.NOMBRETIEMPO</code>.
 	 */
 	public final TableField<TiemposRecord, String> NOMBRETIEMPO = createField("NOMBRETIEMPO", org.jooq.impl.SQLDataType.VARCHAR.length(40), this, "");
+
+	/**
+	 * The column <code>kutipak.tiempos.NEMOTECNICOTIEMPO</code>.
+	 */
+	public final TableField<TiemposRecord, String> NEMOTECNICOTIEMPO = createField("NEMOTECNICOTIEMPO", org.jooq.impl.SQLDataType.VARCHAR.length(5), this, "");
 
 	/**
 	 * Create a <code>kutipak.tiempos</code> table reference

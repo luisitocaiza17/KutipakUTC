@@ -35,7 +35,7 @@ import persistencia.tables.records.PalabrasRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Palabras extends TableImpl<PalabrasRecord> {
 
-	private static final long serialVersionUID = -450150440;
+	private static final long serialVersionUID = -902871927;
 
 	/**
 	 * The reference instance of <code>kutipak.palabras</code>
@@ -136,7 +136,7 @@ public class Palabras extends TableImpl<PalabrasRecord> {
 	 */
 	@Override
 	public List<ForeignKey<PalabrasRecord, ?>> getReferences() {
-		return Arrays.<ForeignKey<PalabrasRecord, ?>>asList(Keys.FK_IDIOMASPALABRAS, Keys.FK_TIPOPALABRAS, Keys.FK_KEOEK);
+		return Arrays.<ForeignKey<PalabrasRecord, ?>>asList(Keys.FK_IDIOMASPALABRAS, Keys.FK_TIPOPALABRAS, Keys.FK_KEOEK, Keys.FK_TIEMPOSPALABRAS);
 	}
 
 	/**

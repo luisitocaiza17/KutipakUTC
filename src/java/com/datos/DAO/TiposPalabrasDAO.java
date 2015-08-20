@@ -48,7 +48,7 @@ public class TiposPalabrasDAO {
         List<TipospalabrasRecord> listadoTiposPalabras= new ArrayList<TipospalabrasRecord>();
         Connection conexion= con.realiza_conexion();
         DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
-        Result<Record> result = create.select().from(TIPOSPALABRAS).where(TIPOSPALABRAS.TIPOID.equal(tipospalabras.getTipoid()).or(TIPOSPALABRAS.NOMBRETIPO.equal(tipospalabras.getNombretipo()))).fetch();
+        Result<Record> result = create.select().from(TIPOSPALABRAS).where(TIPOSPALABRAS.TIPOID.equal(tipospalabras.getTipoid()).or(TIPOSPALABRAS.NOMBRETIPO.equal(tipospalabras.getNombretipo())).or(TIPOSPALABRAS.NEMOTECNICO.equal(tipospalabras.getNemotecnico()))).fetch();
         for(Record r : result){
             TipospalabrasRecord tipos = new TipospalabrasRecord();
             tipos.setTipoid(r.getValue(TIPOSPALABRAS.TIPOID));
@@ -74,7 +74,7 @@ public class TiposPalabrasDAO {
         ConectarBD con = new ConectarBD();
         Connection conexion = con.realiza_conexion();
 	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
-        create.update(TIPOSPALABRAS).set(TIPOSPALABRAS.NOMBRETIPO,tipos.getNombretipo()).where(TIPOSPALABRAS.TIPOID.equal(tipos.getTipoid())).execute();
+        create.update(TIPOSPALABRAS).set(TIPOSPALABRAS.NOMBRETIPO,tipos.getNombretipo()).set(TIPOSPALABRAS.NEMOTECNICO,tipos.getNemotecnico()).where(TIPOSPALABRAS.TIPOID.equal(tipos.getTipoid())).execute();
         conexion.close();
         return true;
     }
@@ -83,7 +83,7 @@ public class TiposPalabrasDAO {
         ConectarBD con = new ConectarBD();
         Connection conexion = con.realiza_conexion();
 	DSLContext create = DSL.using(conexion, SQLDialect.MYSQL);
-        create.delete(TIPOSPALABRAS).where(TIPOSPALABRAS.TIPOID.equal(tipos.getTipoid()));
+        create.delete(TIPOSPALABRAS).where(TIPOSPALABRAS.TIPOID.equal(tipos.getTipoid())).execute();
         return true;
     }
 }
