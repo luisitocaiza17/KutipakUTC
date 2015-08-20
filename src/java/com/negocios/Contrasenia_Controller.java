@@ -95,7 +95,7 @@ public class Contrasenia_Controller extends HttpServlet {
                 }
                 if(contador>0){
                     if(contraseñaExisten.equals(contraseniaActual)){
-                        usuarioActual.setContrasenia(usuario);
+                        usuarioActual.setContrasenia(repitaContraseniaNueva);
                         usuarioActual.setNombreusuario(nombre);
                         usu.ActualizarUsuarios(usuarioActual);
                         PrintWriter out = response.getWriter();
