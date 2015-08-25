@@ -1017,7 +1017,6 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.jooq-meta-extensions-3.6.2.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.jooq-scala-3.6.2.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.mysql-connector-java-5.1.29-bin.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.DesarrolloKutipak.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.spring-framework400.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
