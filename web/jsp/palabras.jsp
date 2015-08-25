@@ -129,7 +129,7 @@
                 $("#tiempo").val("");
                 $("#nemotecnico").val("");
                 $.ajax({
-                    url: '../Tiempos_Controller',
+                    url: '../Palabras_Controller',
                     data: {
                         "tipoConsulta": tipoConsulta
                     },
@@ -375,7 +375,35 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
                                                
-                        <div id="grid"></div>
+<!--                        <div id="grid"></div>-->
+                        
+                        
+                        
+                        <kendo:grid name="products" pageable="true">
+                            <kendo:dataSource pageSize="10" serverPaging="true">
+                                    <kendo:dataSource-transport read="../Palabras_Controller">
+                                            <kendo:dataSource-transport-parameterMap>
+                                                    <script>
+                                                            function parameterMap() {
+                                                                    return {
+                                                                        tipoConsulta: "TodosTipos"                                                                         
+                                                                    };
+                                                            }
+                                                    </script>
+                                            </kendo:dataSource-transport-parameterMap>
+                                    </kendo:dataSource-transport>
+                                    <kendo:dataSource-schema data="Data" total="Total"></kendo:dataSource-schema>
+                            </kendo:dataSource>
+                            <kendo:grid-columns>
+                                    <kendo:grid-column title="TIEMPOSID" field="TIEMPOSID" />
+                                    <kendo:grid-column title="NOMBRETIEMPO" field="NOMBRETIEMPO" />
+                                    <kendo:grid-column title="NEMOTECNICOTIEMPO" field="NEMOTECNICOTIEMPO" />
+                                    
+                            </kendo:grid-columns>
+                    </kendo:grid>
+
+                        
+                        
                         
                     </div>
                     <div class="col-md-2"></div>

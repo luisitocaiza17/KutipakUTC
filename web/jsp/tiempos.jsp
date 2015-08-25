@@ -21,8 +21,11 @@
             var tipoConsulta="";
             
             $(document).ready(function () {
+                 
+                
                tipoConsulta="TodosTipos";
                cargaInicial(tipoConsulta);
+               
                $('#Contenidos').hide();
                
                $("#guardar").click(function () {
@@ -44,12 +47,14 @@
                                 var operacion="insertar";
                                 Procesos(operacion,idTiempo,tiempo,nemotecnico);
                                 tipoConsulta="TodosTipos";
-                                cargaInicial(tipoConsulta);
+                                location.reload();
+                                //cargaInicial(tipoConsulta);
                             }else{
                                 var operacion="actualizar";
                                 Procesos(operacion,idTiempo,tiempo,nemotecnico);
                                 tipoConsulta="TodosTipos";
-                                cargaInicial(tipoConsulta);
+                                location.reload();
+                                //cargaInicial(tipoConsulta);
                             }
                             
                         }
@@ -60,6 +65,10 @@
             });
                         
             function cargaInicial(tipoConsulta){
+                //DE KENDO
+        
+                
+                //FIN KENDO
                 $("#idTiempo").val("");
                 $('#Contenidos').hide();
                 $('#TablaTodos').show();
@@ -90,6 +99,19 @@
                                  alert ("no existe nada en la BD");
                              }
                     }
+                });
+                $("#gridInfo").kendoGrid({
+                        height: 500,
+                        filterable: true,
+                        sortable: true,
+                        scrollable: true,
+                        pageable: {
+                            input: true,
+                            numeric: true,
+                            pageSize: 20
+                        },
+                        navigatable: true
+                       
                 });
             }
             
@@ -131,7 +153,8 @@
                     var nemotecnico="";
                     Procesos(operacion,idTipoPalabra, nombrePalabra,nemotecnico);
                     var tipoConsulta="TodosTipos";
-                    cargaInicial(tipoConsulta);
+                    location.reload();
+                    //cargaInicial(tipoConsulta);
                 } 
                 
             }
@@ -270,11 +293,15 @@
                 <div id="TablaTodos" class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
-                        <table class="table table-hover table-bordered">
+                        <table class="table table-hover table-bordered" id="gridInfo">
+                         <colgroup>
+                                <col />
+                                <col />
+                        </colgroup>
                         <thead>
                             <tr>
-                                <td style='width: 50%'>Tiempos</td>
-                                <td style='width: 50%'>Nombre Nemotécnico</td>
+                                <th >Tiempos</th>
+                                <th >Nombre Nemotécnico</th>
                             </tr>
                         </thead>
                         <tbody id="dataTable">
@@ -287,7 +314,7 @@
                 </div>
                 <div id="Contenidos" class="row">
                     <div align="left">
-                            <button id="regresar" type="button" class="btn btn-default" onclick="cargaInicial('TodosTipos');">Regresar</button>
+                            <button id="regresar" type="button" class="btn btn-default" onclick="javascript:location.reload();">Regresar</button>
                         </div>
                     <div align="right">
                             <button id="eliminar" type="button" class="btn btn-danger" onclick="eliminarRegistro();">Eliminar</button>
