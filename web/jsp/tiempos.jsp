@@ -252,7 +252,7 @@
                 <div class="list-group">
                     <a href="administradorPrincipal.jsp" class="list-group-item ">Tipos Palabras</a>
                     <a href="tiempos.jsp" class="list-group-item active">Tiempos</a>
-                    <a href="services.html" class="list-group-item">Palabras</a>
+                    <a href="palabras.jsp" class="list-group-item">Palabras</a>
                     <a  onClick="abreCambio();" class="list-group-item">Cambio de Contraseña</a>
                 </div>
             </div>

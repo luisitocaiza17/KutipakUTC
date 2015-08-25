@@ -1,9 +1,7 @@
 <%-- 
-    Document   : administradorPrincipal
-    Created on : Jul 28, 2015, 1:06:30 PM
+    Document   : tiempos
+    Created on : Aug 20, 2015, 1:27:59 PM
     Author     : luisito
-    Pruebas de envio2 34
-
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -11,19 +9,80 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Administrador</title>
+        <title>Palabras</title>
         <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/Kendo/kendo.common.min.css" />
         <link rel="stylesheet" href="../css/Kendo/kendo.default.min.css">
-        
         <link href="../css/bootstrap/styles.css" rel="stylesheet">
         <script src="../js/jquery.min.js"></script>
         <script src="../js/Kendo/kendo.all.min.js"></script>
-     <script>
+        <script>
             var tipoConsulta="";
             
             $(document).ready(function () {
+                
+                var data = [
+                            "Albania",
+                            "Andorra",
+                            "Armenia",
+                            "Austria",
+                            "Azerbaijan",
+                            "Belarus",
+                            "Belgium",
+                            "Bosnia & Herzegovina",
+                            "Bulgaria",
+                            "Croatia",
+                            "Cyprus",
+                            "Czech Republic",
+                            "Denmark",
+                            "Estonia",
+                            "Finland",
+                            "France",
+                            "Georgia",
+                            "Germany",
+                            "Greece",
+                            "Hungary",
+                            "Iceland",
+                            "Ireland",
+                            "Italy",
+                            "Kosovo",
+                            "Latvia",
+                            "Liechtenstein",
+                            "Lithuania",
+                            "Luxembourg",
+                            "Macedonia",
+                            "Malta",
+                            "Moldova",
+                            "Monaco",
+                            "Montenegro",
+                            "Netherlands",
+                            "Norway",
+                            "Poland",
+                            "Portugal",
+                            "Romania",
+                            "Russia",
+                            "San Marino",
+                            "Serbia",
+                            "Slovakia",
+                            "Slovenia",
+                            "Spain",
+                            "Sweden",
+                            "Switzerland",
+                            "Turkey",
+                            "Ukraine",
+                            "United Kingdom",
+                            "Vatican City"
+                        ];
+                        
+                        $("#traduccion").kendoAutoComplete({
+                        dataSource: data,
+                        filter: "startswith",
+                        placeholder: "Select country...",
+                        separator: ", "
+                    });
+                
+                
                tipoConsulta="TodosTipos";
                cargaInicial(tipoConsulta);
                $('#Contenidos').hide();
@@ -31,26 +90,26 @@
                $("#guardar").click(function () {
                         
                        
-                        var idTipoPalabra=$("#idTipoPalabra").val();
-                        var nombrePalabra=$("#tipoPalabra").val();
+                        var idTiempo=$("#idTiempo").val();
+                        var tiempo=$("#tiempo").val();
                         var nemotecnico=$("#nemotecnico").val();
-                        if(nombrePalabra==="" || nemotecnico==="" ){
-                            if(nombrePalabra===""){
-                                alert("Por favor ingrese el Tipo de Palabra");
+                        if(tiempo==="" || nemotecnico==="" ){
+                            if(tiempo===""){
+                                alert("Por favor ingrese el Tiempo");
                            }
                            if(nemotecnico===""){
                                 alert("Por favor ingrese el Nemoténico");
                            } 
                             
                         }else{
-                            if(idTipoPalabra===""){
+                            if(idTiempo===""){
                                 var operacion="insertar";
-                                Procesos(operacion,idTipoPalabra,nombrePalabra,nemotecnico);
+                                Procesos(operacion,idTiempo,tiempo,nemotecnico);
                                 tipoConsulta="TodosTipos";
                                 cargaInicial(tipoConsulta);
                             }else{
                                 var operacion="actualizar";
-                                Procesos(operacion,idTipoPalabra,nombrePalabra,nemotecnico);
+                                Procesos(operacion,idTiempo,tiempo,nemotecnico);
                                 tipoConsulta="TodosTipos";
                                 cargaInicial(tipoConsulta);
                             }
@@ -63,14 +122,14 @@
             });
                         
             function cargaInicial(tipoConsulta){
-                $("#idTipoPalabra").val("");
+                $("#idTiempo").val("");
                 $('#Contenidos').hide();
                 $('#TablaTodos').show();
                 $('#nuevo').show();
-                $("#tipoPalabra").val("");
+                $("#tiempo").val("");
                 $("#nemotecnico").val("");
                 $.ajax({
-                    url: '../Administrador_Controller',
+                    url: '../Tiempos_Controller',
                     data: {
                         "tipoConsulta": tipoConsulta
                     },
@@ -78,14 +137,14 @@
                     type: 'POST',
                     datatype: 'json',
                     success: function (data) {
-                         var listadoTipos = data.listadoTipos;
+                         var listadoTipos = data.listadoTiempos;
                          var selogro=data.success;
                          if(selogro===true){
                                 $("#dataTable").children().remove();
                                 $.each(listadoTipos, function (index) {
 
                                      $("#dataTable").append("<tr>" +
-                                     "<td style='width: 10%'><a onclick='redireccionaActualizar(&#39;"+listadoTipos[index].id+"&#39;,&#39;"+listadoTipos[index].tipo+"&#39;,&#39;"+listadoTipos[index].nemotecnico+"&#39;);'>" + listadoTipos[index].tipo + "</a></td>" +
+                                     "<td style='width: 10%'><a onclick='redireccionaActualizar(&#39;"+listadoTipos[index].id+"&#39;,&#39;"+listadoTipos[index].tiempo+"&#39;,&#39;"+listadoTipos[index].nemotecnico+"&#39;);'>" + listadoTipos[index].tiempo + "</a></td>" +
                                      "<td style='width: 10%'>" + listadoTipos[index].nemotecnico + "</td>" +
                                      "</tr>");
                                  });
@@ -114,9 +173,9 @@
                 $('#eliminar').show();
                 if(id!==""){
                     $("#guardar").text("ACTUALIZAR");
-                    $("#tipoPalabra").val(nombre);
+                    $("#tiempo").val(nombre);
                     $("#nemotecnico").val(nemotecnico);
-                    $("#idTipoPalabra").val(id);
+                    $("#idTiempo").val(id);
                     
                     //Procesos("ACTUALIZAR",id, nombrePalabra,nemotecnico);
                     
@@ -125,27 +184,28 @@
             }
             
             function eliminarRegistro(){
-                 var seguro = confirm("Esta seguro que desea borrar el tipo de palabra?");
+                
+               var seguro = confirm("Esta seguro que desea borrar el tiempo?");
                 if (seguro == true) {
                     var operacion="eliminar";
-                    var idTipoPalabra=$("#idTipoPalabra").val();
+                    var idTipoPalabra=$("#idTiempo").val();
                     var nombrePalabra="";
                     var nemotecnico="";
                     Procesos(operacion,idTipoPalabra, nombrePalabra,nemotecnico);
                     var tipoConsulta="TodosTipos";
                     cargaInicial(tipoConsulta);
-                }
+                } 
                 
             }
             
-            function Procesos(operacion,idTipoPalabra, nombrePalabra,nemotecnico){
+            function Procesos(operacion,idTiempo, tiempo,nemotecnico){
                 
                 $.ajax({
-                    url: '../Administrador_Controller',
+                    url: '../Tiempos_Controller',
                     data: {
                         "operacion": operacion,
-                        "idTipoPalabra":idTipoPalabra,
-                        "nombrePalabra":nombrePalabra,
+                        "idTiempo":idTiempo,
+                        "tiempo":tiempo,
                         "nemotecnico":nemotecnico
                     },
                     async: false,
@@ -185,10 +245,52 @@
         }
             
         </script>
+        
+        
+        
+            <script>
+                
+//                http://demos.telerik.com/kendo-ui/grid/from-table
+                $(document).ready(function () {
+                    $("#grid").kendoGrid({
+                        dataSource: {
+                            type: "odata",
+                            transport: {
+                                read: "//demos.telerik.com/kendo-ui/service/Northwind.svc/Customers"
+                            },
+                            pageSize: 20
+                        },
+                        height: 550,
+                        groupable: true,
+                        sortable: true,
+                        pageable: {
+                            refresh: true,
+                            pageSizes: true,
+                            buttonCount: 5
+                        },
+                        columns: [{
+                            
+                            field: "Palabra",
+                            title: "Palabra",
+                            
+                        }, {
+                            field: "Traduccion",
+                            title: "Traduccion"
+                        }, {
+                            field: "Idioma",
+                            title: "Idioma"
+                        }, {
+                            field: "Tipo",
+                            title: "Tipo"
+                        }]
+                    });
+                });
+            </script>
+        
+        
     </head>
     <body>
-        
-   <%// Permitimos el acceso si la session existe		
+        <%// Permitimos el acceso si la session existe		
         if(session.getAttribute("usuario") == null){
             response.sendRedirect("../index.html");
         }
@@ -206,7 +308,7 @@
                 </button>
                 <a class="navbar-brand" href="../index.html">KUTIPAK UTC</a>
             </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
+            <!-- Collect the nav links, forms, and other content for toggling   -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
@@ -252,17 +354,17 @@
             <!-- Sidebar Column -->
             <div class="col-md-3">
                 <div class="list-group">
-                    <a href="administradorPrincipal.jsp" class="list-group-item active">Tipos Palabras</a>
-                    <a href="tiempos.jsp" class="list-group-item">Tiempos</a>
-                    <a href="palabras.jsp" class="list-group-item">Palabras</a>
+                    <a href="administradorPrincipal.jsp" class="list-group-item ">Tipos Palabras</a>
+                    <a href="tiempos.jsp" class="list-group-item ">Tiempos</a>
+                    <a href="palabras.jsp" class="list-group-item active">Palabras</a>
                     <a  onClick="abreCambio();" class="list-group-item">Cambio de Contraseña</a>
                 </div>
             </div>
             <!-- Content Column -->
             <div class="col-md-9">
-                <h2>Tipos de Palabras</h2>
-                <p>Los tipos de palabras son distintivos básicos de cada palabra, estas pueden ser adjetivos, advervios,
-                    sustantivos, verbos entre otras, esto ayudará a mejorar la traducción</p>
+                <h2>Palabras</h2>
+                <p>En la sección palabras, usted puede ingresar palabras al diccionario de Kutipak UTC, tanto la palabra como 
+                su significado se almacenaran en la base de datos para poder mostrar la misma en la base de datos</p>
                 
                 <br>
                 <div align="right">
@@ -270,21 +372,14 @@
                 </div>
                 
                 <div id="TablaTodos" class="row">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6">
-                        <table class="table table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <td style='width: 50%'>Tipo de Palabra</td>
-                                <td style='width: 50%'>Nombre Nemotécnico</td>
-                            </tr>
-                        </thead>
-                        <tbody id="dataTable">
-                        </tbody>
-                                
-                    </table>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                                               
+                        <div id="grid"></div>
+                        
                     </div>
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
+                    
                     
                 </div>
                 <div id="Contenidos" class="row">
@@ -299,18 +394,50 @@
                         <br>
                         <form class="form-horizontal">
                                 <div class="form-group">
-                                  <label for="tipoPalabra" class="col-sm-6 control-label">TIPO DE PALABRA</label>
+                                  <label for="palabra" class="col-sm-6 control-label">Palabra</label>
                                   <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="tipoPalabra" placeholder="Sujeto,Verbo,etc ">
+                                    <input type="text" class="form-control" id="palabra" placeholder="auto,casa">
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label for="nemotecnico" class="col-sm-6 control-label">NEMOTÉCNICO</label>
+                                  <label for="idioma" class="col-sm-6 control-label">Idioma</label>
                                   <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="nemotecnico" placeholder="SUJ,VER,etc">
-                                    <input type="hidden" class="form-control" id="idTipoPalabra">
+                                    <select class="form-control required" id="idioma"> 
+                                        <option value='1'>Español</option>
+                                        <option value='2'>kitchwa</option>
+                                    </select>
                                   </div>
                                 </div>
+                            
+                                <div class="form-group">
+                                  <label for="tipo" class="col-sm-6 control-label">Tipo</label>
+                                  <div class="col-sm-6">
+                                    <select class="form-control required" id="tipo"> 
+                                        <option value='1'>Español</option>
+                                        <option value='2'>kitchwa</option>
+                                    </select>
+                                  </div>
+                                </div>
+                            
+                                <div class="form-group">
+                                  <label for="eltiempo" class="col-sm-6 control-label">Tiempo</label>
+                                  <div class="col-sm-6">
+                                    <select class="form-control required" id="eltiempo"> 
+                                        <option value='1'>Español</option>
+                                        <option value='2'>kitchwa</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                 
+                                <div class="form-group">
+                                  <label for="traduccion" class="col-sm-6 control-label">Traducción</label>
+                                  <div class="col-sm-6">
+                                    <div class="demo-section k-header"> 
+                                        <input id="traduccion" style="width: 100%;" />
+                                    </div>
+                                  </div>
+                                </div>
+                                
                                 
                                 <div class="form-group">
                                   <div class="col-sm-offset-6 col-sm-10">
