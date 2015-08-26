@@ -105,11 +105,11 @@
                         filterable: true,
                         sortable: true,
                         scrollable: true,
-                        pageable: {
-                            input: true,
-                            numeric: true,
-                            pageSize: 20
-                        },
+//                        pageable: {
+//                            input: true,
+//                            numeric: true,
+//                            pageSize: 20
+//                        },
                         navigatable: true
                        
                 });

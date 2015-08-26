@@ -18,73 +18,80 @@
         <script src="../js/jquery.min.js"></script>
         <script src="../js/Kendo/kendo.all.min.js"></script>
         <script>
+          
+//                
+//                var data = [
+//                            "Albania",
+//                            "Andorra",
+//                            "Armenia",
+//                            "Austria",
+//                            "Azerbaijan",
+//                            "Belarus",
+//                            "Belgium",
+//                            "Bosnia & Herzegovina",
+//                            "Bulgaria",
+//                            "Croatia",
+//                            "Cyprus",
+//                            "Czech Republic",
+//                            "Denmark",
+//                            "Estonia",
+//                            "Finland",
+//                            "France",
+//                            "Georgia",
+//                            "Germany",
+//                            "Greece",
+//                            "Hungary",
+//                            "Iceland",
+//                            "Ireland",
+//                            "Italy",
+//                            "Kosovo",
+//                            "Latvia",
+//                            "Liechtenstein",
+//                            "Lithuania",
+//                            "Luxembourg",
+//                            "Macedonia",
+//                            "Malta",
+//                            "Moldova",
+//                            "Monaco",
+//                            "Montenegro",
+//                            "Netherlands",
+//                            "Norway",
+//                            "Poland",
+//                            "Portugal",
+//                            "Romania",
+//                            "Russia",
+//                            "San Marino",
+//                            "Serbia",
+//                            "Slovakia",
+//                            "Slovenia",
+//                            "Spain",
+//                            "Sweden",
+//                            "Switzerland",
+//                            "Turkey",
+//                            "Ukraine",
+//                            "United Kingdom",
+//                            "Vatican City"
+//                        ];
+//                        
+//                        $("#traduccion").kendoAutoComplete({
+//                        dataSource: data,
+//                        filter: "startswith",
+//                        placeholder: "Select country...",
+//                        separator: ", "
+//                    });
+                
+            
+            
+        </script>
+        <script>
             var tipoConsulta="";
             
             $(document).ready(function () {
-                
-                var data = [
-                            "Albania",
-                            "Andorra",
-                            "Armenia",
-                            "Austria",
-                            "Azerbaijan",
-                            "Belarus",
-                            "Belgium",
-                            "Bosnia & Herzegovina",
-                            "Bulgaria",
-                            "Croatia",
-                            "Cyprus",
-                            "Czech Republic",
-                            "Denmark",
-                            "Estonia",
-                            "Finland",
-                            "France",
-                            "Georgia",
-                            "Germany",
-                            "Greece",
-                            "Hungary",
-                            "Iceland",
-                            "Ireland",
-                            "Italy",
-                            "Kosovo",
-                            "Latvia",
-                            "Liechtenstein",
-                            "Lithuania",
-                            "Luxembourg",
-                            "Macedonia",
-                            "Malta",
-                            "Moldova",
-                            "Monaco",
-                            "Montenegro",
-                            "Netherlands",
-                            "Norway",
-                            "Poland",
-                            "Portugal",
-                            "Romania",
-                            "Russia",
-                            "San Marino",
-                            "Serbia",
-                            "Slovakia",
-                            "Slovenia",
-                            "Spain",
-                            "Sweden",
-                            "Switzerland",
-                            "Turkey",
-                            "Ukraine",
-                            "United Kingdom",
-                            "Vatican City"
-                        ];
-                        
-                        $("#traduccion").kendoAutoComplete({
-                        dataSource: data,
-                        filter: "startswith",
-                        placeholder: "Select country...",
-                        separator: ", "
-                    });
-                
+                 
                 
                tipoConsulta="TodosTipos";
                cargaInicial(tipoConsulta);
+               
                $('#Contenidos').hide();
                
                $("#guardar").click(function () {
@@ -106,12 +113,14 @@
                                 var operacion="insertar";
                                 Procesos(operacion,idTiempo,tiempo,nemotecnico);
                                 tipoConsulta="TodosTipos";
-                                cargaInicial(tipoConsulta);
+                                location.reload();
+                                //cargaInicial(tipoConsulta);
                             }else{
                                 var operacion="actualizar";
                                 Procesos(operacion,idTiempo,tiempo,nemotecnico);
                                 tipoConsulta="TodosTipos";
-                                cargaInicial(tipoConsulta);
+                                location.reload();
+                                //cargaInicial(tipoConsulta);
                             }
                             
                         }
@@ -122,6 +131,10 @@
             });
                         
             function cargaInicial(tipoConsulta){
+                //DE KENDO
+        
+                
+                //FIN KENDO
                 $("#idTiempo").val("");
                 $('#Contenidos').hide();
                 $('#TablaTodos').show();
@@ -129,7 +142,7 @@
                 $("#tiempo").val("");
                 $("#nemotecnico").val("");
                 $.ajax({
-                    url: '../Palabras_Controller',
+                    url: '../Tiempos_Controller',
                     data: {
                         "tipoConsulta": tipoConsulta
                     },
@@ -152,6 +165,19 @@
                                  alert ("no existe nada en la BD");
                              }
                     }
+                });
+                $("#gridInfo").kendoGrid({
+                        height: 500,
+                        filterable: true,
+                        sortable: true,
+                        scrollable: true,
+//                        pageable: {
+//                            input: true,
+//                            numeric: true,
+//                            pageSize: 20
+//                        },
+                        navigatable: true
+                       
                 });
             }
             
@@ -193,7 +219,8 @@
                     var nemotecnico="";
                     Procesos(operacion,idTipoPalabra, nombrePalabra,nemotecnico);
                     var tipoConsulta="TodosTipos";
-                    cargaInicial(tipoConsulta);
+                    location.reload();
+                    //cargaInicial(tipoConsulta);
                 } 
                 
             }
@@ -245,47 +272,6 @@
         }
             
         </script>
-        
-        
-        
-            <script>
-                
-//                http://demos.telerik.com/kendo-ui/grid/from-table
-                $(document).ready(function () {
-                    $("#grid").kendoGrid({
-                        dataSource: {
-                            type: "odata",
-                            transport: {
-                                read: "//demos.telerik.com/kendo-ui/service/Northwind.svc/Customers"
-                            },
-                            pageSize: 20
-                        },
-                        height: 550,
-                        groupable: true,
-                        sortable: true,
-                        pageable: {
-                            refresh: true,
-                            pageSizes: true,
-                            buttonCount: 5
-                        },
-                        columns: [{
-                            
-                            field: "Palabra",
-                            title: "Palabra",
-                            
-                        }, {
-                            field: "Traduccion",
-                            title: "Traduccion"
-                        }, {
-                            field: "Idioma",
-                            title: "Idioma"
-                        }, {
-                            field: "Tipo",
-                            title: "Tipo"
-                        }]
-                    });
-                });
-            </script>
         
         
     </head>
@@ -370,49 +356,36 @@
                 <div align="right">
                     <button id="nuevo" type="button" class="btn btn-default" onclick="redireccionaInsertar();">Nuevo</button>
                 </div>
-                
+                <br>
                 <div id="TablaTodos" class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                                               
-<!--                        <div id="grid"></div>-->
-                        
-                        
-                        
-                        <kendo:grid name="products" pageable="true">
-                            <kendo:dataSource pageSize="10" serverPaging="true">
-                                    <kendo:dataSource-transport read="../Palabras_Controller">
-                                            <kendo:dataSource-transport-parameterMap>
-                                                    <script>
-                                                            function parameterMap() {
-                                                                    return {
-                                                                        tipoConsulta: "TodosTipos"                                                                         
-                                                                    };
-                                                            }
-                                                    </script>
-                                            </kendo:dataSource-transport-parameterMap>
-                                    </kendo:dataSource-transport>
-                                    <kendo:dataSource-schema data="Data" total="Total"></kendo:dataSource-schema>
-                            </kendo:dataSource>
-                            <kendo:grid-columns>
-                                    <kendo:grid-column title="TIEMPOSID" field="TIEMPOSID" />
-                                    <kendo:grid-column title="NOMBRETIEMPO" field="NOMBRETIEMPO" />
-                                    <kendo:grid-column title="NEMOTECNICOTIEMPO" field="NEMOTECNICOTIEMPO" />
-                                    
-                            </kendo:grid-columns>
-                    </kendo:grid>
-
-                        
-                        
-                        
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <table class="table table-hover table-bordered" id="gridInfo">
+                         <colgroup>
+                                <col />
+                                <col />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th >Idioma</th>
+                                <th >Palabra</th>
+                                <th >Traducción</th>
+                                <th >Tipo</th>
+                                <th >Tiempo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTable">
+                        </tbody>
+                                
+                    </table>
                     </div>
-                    <div class="col-md-2"></div>
-                    
+                    <div class="col-md-1"></div>
                     
                 </div>
+                
                 <div id="Contenidos" class="row">
                     <div align="left">
-                            <button id="regresar" type="button" class="btn btn-default" onclick="cargaInicial('TodosTipos');">Regresar</button>
+                            <button id="regresar" type="button" class="btn btn-default" onclick="javascript:location.reload();">Regresar</button>
                         </div>
                     <div align="right">
                             <button id="eliminar" type="button" class="btn btn-danger" onclick="eliminarRegistro();">Eliminar</button>

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.jooq.Field;
+import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +35,7 @@ import persistencia.tables.records.EstructuraRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Estructura extends TableImpl<EstructuraRecord> {
 
-	private static final long serialVersionUID = 743305215;
+	private static final long serialVersionUID = 929384772;
 
 	/**
 	 * The reference instance of <code>kutipak.estructura</code>
@@ -113,6 +114,14 @@ public class Estructura extends TableImpl<EstructuraRecord> {
 	@Override
 	public List<UniqueKey<EstructuraRecord>> getKeys() {
 		return Arrays.<UniqueKey<EstructuraRecord>>asList(Keys.KEY_ESTRUCTURA_PRIMARY);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<ForeignKey<EstructuraRecord, ?>> getReferences() {
+		return Arrays.<ForeignKey<EstructuraRecord, ?>>asList(Keys.FK_IDIOMA_ESTRUCTURA);
 	}
 
 	/**

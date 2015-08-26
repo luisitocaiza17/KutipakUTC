@@ -10,6 +10,7 @@ import persistencia.tables.Estructura;
 import persistencia.tables.Estructurapalabras;
 import persistencia.tables.Idiomas;
 import persistencia.tables.Palabras;
+import persistencia.tables.Pantallapalabras;
 import persistencia.tables.Personas;
 import persistencia.tables.Tiempos;
 import persistencia.tables.Tipospalabras;
@@ -48,6 +49,11 @@ public class Tables {
 	 * The table kutipak.palabras
 	 */
 	public static final Palabras PALABRAS = persistencia.tables.Palabras.PALABRAS;
+
+	/**
+	 * VIEW
+	 */
+	public static final Pantallapalabras PANTALLAPALABRAS = persistencia.tables.Pantallapalabras.PANTALLAPALABRAS;
 
 	/**
 	 * The table kutipak.personas
