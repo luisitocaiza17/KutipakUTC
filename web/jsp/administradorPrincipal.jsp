@@ -47,12 +47,14 @@
                                 var operacion="insertar";
                                 Procesos(operacion,idTipoPalabra,nombrePalabra,nemotecnico);
                                 tipoConsulta="TodosTipos";
-                                cargaInicial(tipoConsulta);
+                                location.reload();
+                                //cargaInicial(tipoConsulta);
                             }else{
                                 var operacion="actualizar";
                                 Procesos(operacion,idTipoPalabra,nombrePalabra,nemotecnico);
                                 tipoConsulta="TodosTipos";
-                                cargaInicial(tipoConsulta);
+                                location.reload();
+                                //cargaInicial(tipoConsulta);
                             }
                             
                         }
@@ -94,6 +96,19 @@
                              }
                     }
                 });
+                $("#gridInfo").kendoGrid({
+                        height: 500,
+                        filterable: true,
+                        sortable: true,
+                        scrollable: true,
+//                        pageable: {
+//                            input: true,
+//                            numeric: true,
+//                            pageSize: 20
+//                        },
+                        navigatable: true
+                       
+                });
             }
             
             function redireccionaInsertar(){
@@ -133,7 +148,8 @@
                     var nemotecnico="";
                     Procesos(operacion,idTipoPalabra, nombrePalabra,nemotecnico);
                     var tipoConsulta="TodosTipos";
-                    cargaInicial(tipoConsulta);
+                    location.reload();
+                    //cargaInicial(tipoConsulta);
                 }
                 
             }
@@ -272,11 +288,15 @@
                 <div id="TablaTodos" class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
-                        <table class="table table-hover table-bordered">
+                        <table class="table table-hover table-bordered" id="gridInfo">
+                        <colgroup>
+                                <col />
+                                <col />
+                        </colgroup>
                         <thead>
                             <tr>
-                                <td style='width: 50%'>Tipo de Palabra</td>
-                                <td style='width: 50%'>Nombre Nemotécnico</td>
+                                <th>Tipo de Palabra</th>
+                                <th >Nombre Nemotécnico</th>
                             </tr>
                         </thead>
                         <tbody id="dataTable">
@@ -289,7 +309,7 @@
                 </div>
                 <div id="Contenidos" class="row">
                     <div align="left">
-                            <button id="regresar" type="button" class="btn btn-default" onclick="cargaInicial('TodosTipos');">Regresar</button>
+                            <button id="regresar" type="button" class="btn btn-default" onclick="javascript:location.reload();">Regresar</button>
                         </div>
                     <div align="right">
                             <button id="eliminar" type="button" class="btn btn-danger" onclick="eliminarRegistro();">Eliminar</button>

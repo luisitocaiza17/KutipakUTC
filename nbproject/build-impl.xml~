@@ -1006,6 +1006,8 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.mysql-connector-java-5.1.29-bin.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.DesarrolloKutipak.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.spring-framework400.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.json-lib-2.4-jdk15.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.ezmorph-0.8.1.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
@@ -1018,6 +1020,8 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.jooq-scala-3.6.2.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.mysql-connector-java-5.1.29-bin.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.spring-framework400.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${file.reference.json-lib-2.4-jdk15.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${file.reference.ezmorph-0.8.1.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>

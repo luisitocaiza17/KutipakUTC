@@ -77,19 +77,8 @@ public class Palabras_Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-           System.out.println("sie entra a palabras");
-        try {
-		//PalabrasDAO palabrasProcesos = new PalabrasDAO();
-		//List<PalabrasRecord> results = palabrasProcesos.ConsultarPalabras();
-                TiemposDAO TodoTiempos = new TiemposDAO();
-                List<TiemposRecord> results = TodoTiempos.ConsultarTiempos();
-                response.setContentType("application/json");
-		response.getWriter().print(_gson.toJson(results));
-            }
-            catch (Exception e) {
-                   e.printStackTrace();
-            }
+                  System.out.println("sie entra a palabras");
+        
         
     }
 
